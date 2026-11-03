@@ -1,13 +1,13 @@
 <?php
 
-// Tampilkan error jika ada masalah lain
+// Tampilkan error jika ada masalah internal
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 define('LARAVEL_START', microtime(true));
 
-// Buat direktori temporary wajib Vercel
+// Siapkan folder storage temporary di Vercel
 $storagePath = '/tmp/storage';
 if (!file_exists($storagePath)) {
     @mkdir($storagePath . '/framework/views', 0755, true);
@@ -22,18 +22,18 @@ try {
     /** @var \Illuminate\Foundation\Application $app */
     $app = require_once __DIR__ . '/../bootstrap/app.php';
 
-    // Set path storage ke /tmp
+    // Arahkan storage path ke /tmp
     $app->useStoragePath($storagePath);
 
-    // Boot aplikasi agar semua Service Provider (View, Session, dll) terhubung
-    $app->boot();
-
-    // Tangkap request & eksekusi Kernel
+    // Tangkap request
     $request = Illuminate\Http\Request::capture();
+
+    // Biarkan Kernel menangani boot & eksekusi secara alami
     $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
     $response = $kernel->handle($request);
 
     $response->send();
+
     $kernel->terminate($request, $response);
 
 } catch (\Throwable $e) {
