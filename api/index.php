@@ -1,6 +1,6 @@
 <?php
 
-// Tampilkan semua error PHP murni jika terjadi masalah bootstrap
+// Tampilkan error jika ada masalah lain
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -24,6 +24,9 @@ try {
 
     // Set path storage ke /tmp
     $app->useStoragePath($storagePath);
+
+    // Boot aplikasi agar semua Service Provider (View, Session, dll) terhubung
+    $app->boot();
 
     // Tangkap request & eksekusi Kernel
     $request = Illuminate\Http\Request::capture();
