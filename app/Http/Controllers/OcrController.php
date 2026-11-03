@@ -26,9 +26,12 @@ class OcrController extends Controller
             $prompt = "Baca foto laporan stok bahan baku ini. Kembalikan HANYA format JSON valid tanpa teks markdown dengan struktur array objek: [{\"nama_bahan\": string, \"satuan\": string, \"stok_awal\": number, \"pembelian\": number, \"pemakaian\": number, \"stok_akhir\": number}]";
         }
 
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" . $apiKey;
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent";
 
-        $response = Http::withHeaders(['Content-Type' => 'application/json'])
+        $response = Http::withHeaders([
+                'Content-Type'   => 'application/json',
+                'x-goog-api-key' => $apiKey,
+            ])
             ->timeout(30)
             ->post($url, [
                 "contents" => [
