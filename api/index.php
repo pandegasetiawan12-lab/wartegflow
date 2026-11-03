@@ -25,6 +25,8 @@ try {
     header('Content-Type: text/plain');
     echo "ViewServiceProvider ada: " . (class_exists(\Illuminate\View\ViewServiceProvider::class) ? 'ya' : 'tidak') . "\n";
     echo "View terikat sebelum boot: " . ($app->bound('view') ? 'ya' : 'tidak') . "\n";
+    echo "Services cache: " . $app->getCachedServicesPath() . " | ada: " . (file_exists($app->getCachedServicesPath()) ? 'ya' : 'tidak') . "\n";
+    echo "Packages cache: " . $app->getCachedPackagesPath() . " | ada: " . (file_exists($app->getCachedPackagesPath()) ? 'ya' : 'tidak') . "\n";
     $app->boot();
     echo "View terikat setelah boot: " . ($app->bound('view') ? 'ya' : 'tidak') . "\n";
     echo "Provider yang dimuat:\n" . implode("\n", array_keys($app->getLoadedProviders())) . "\n";
